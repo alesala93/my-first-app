@@ -1,6 +1,6 @@
 import { configDefaults, defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
+import { fileURLToPath } from 'node:url'
 
 export default defineConfig({
   plugins: [react()],
@@ -9,12 +9,12 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
     passWithNoTests: true,
-    // E2E tests in tests/ belong to Playwright
-    exclude: [...configDefaults.exclude, 'tests/**'],
+    // E2E tests in tests/ belong to Playwright; reference/ holds a handed-over mockup, not project code
+    exclude: [...configDefaults.exclude, 'tests/**', 'reference/**'],
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 })
