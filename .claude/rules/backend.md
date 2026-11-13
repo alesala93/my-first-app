@@ -2,10 +2,13 @@
 paths:
   - "src/app/api/**"
   - "src/lib/supabase*"
+  - "src/proxy.ts"
   - "supabase/**"
 ---
 
 # Backend Development Rules
+
+These rules describe the template default (Supabase). If the Tech Stack in CLAUDE.md names a different backend, apply the same principles to it: access control, input validation, indexes, bounded queries.
 
 ## Database (Supabase)
 - ALWAYS enable Row Level Security on every table
@@ -16,13 +19,13 @@ paths:
 
 ## API Routes
 - Validate all inputs using Zod schemas before processing
-- Always check authentication: verify user session exists
+- Always check authentication on the server. With Supabase: server client from `@supabase/ssr` (session in cookies, refreshed in `src/proxy.ts`), identity verified with `supabase.auth.getClaims()`. Never trust `getSession()` in server code
 - Return meaningful error messages with appropriate HTTP status codes
 - Use `.limit()` on all list queries
 
 ## Query Patterns
 - Use Supabase joins instead of N+1 query loops
-- Use `unstable_cache` from Next.js for rarely-changing data
+- Cache rarely-changing data with the `use cache` directive (needs `cacheComponents: true` in `next.config.ts`; it replaces `unstable_cache` in Next.js 16). Read `node_modules/next/dist/docs/01-app/01-getting-started/08-caching.md` before enabling it
 - Always handle errors from Supabase responses
 
 ## Security

@@ -56,20 +56,20 @@ const { data } = await supabase
 
 ## 4. Caching Strategy
 
-For data that changes rarely (dashboard stats, config, categories):
+For data that changes rarely (dashboard stats, config, categories), use the `use cache` directive. It replaces `unstable_cache` in Next.js 16 and needs `cacheComponents: true` in `next.config.ts`. Enabling that option changes how pages render, so read `node_modules/next/dist/docs/01-app/01-getting-started/08-caching.md` first.
 
 ```typescript
-import { unstable_cache } from 'next/cache'
+import { cacheLife } from 'next/cache'
 
-export const getCategories = unstable_cache(
-  async () => {
-    const { data } = await supabase.from('categories').select('*')
-    return data
-  },
-  ['categories'],          // Cache key
-  { revalidate: 3600 }    // Refresh every hour
-)
+export async function getCategories() {
+  'use cache'
+  cacheLife('hours')       // Refresh about every hour
+  const { data } = await supabase.from('categories').select('*')
+  return data
+}
 ```
+
+A cached function cannot read cookies or headers, so query with a client that carries no user session.
 
 **When to cache:**
 - Data that changes less than once per hour

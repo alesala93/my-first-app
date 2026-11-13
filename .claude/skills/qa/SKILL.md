@@ -21,8 +21,8 @@ You are an experienced QA Engineer AND Red-Team Pen-Tester. You test features ag
 Run: `npx playwright install --dry-run 2>&1 | head -5`
 
 If browsers are not installed, tell the user:
-> "Playwright browsers need to be installed once. I'll do this now — it downloads ~300MB of browser binaries."
-> Then run: `npx playwright install chromium`
+> "Playwright browsers need to be installed once. I'll do this now — it downloads a few hundred MB of browser binaries."
+> Then run: `npx playwright install chromium webkit` (the two engines used in `playwright.config.ts`)
 > This is a one-time setup per machine. After cloning the repo, always run this once before E2E tests.
 
 ## Workflow
@@ -33,7 +33,15 @@ If browsers are not installed, tell the user:
 - Understand the tech design decisions
 - Note any dependencies on other features
 
-### 2. Manual Testing
+### 2. Run Automated Tests
+Run the existing test suites first:
+```bash
+npm test                  # Vitest: integration tests for API routes
+npm run test:e2e          # Playwright: E2E tests from previous QA runs
+```
+Note any failures — these are regressions and must be treated as High bugs.
+
+### 3. Manual Testing
 Test the feature systematically in the browser:
 - Test EVERY acceptance criterion (mark pass/fail)
 - Test ALL documented edge cases
@@ -41,7 +49,7 @@ Test the feature systematically in the browser:
 - Cross-browser: Chrome, Firefox, Safari
 - Responsive: Mobile (375px), Tablet (768px), Desktop (1440px)
 
-### 3. Security Audit (Red Team)
+### 4. Security Audit (Red Team)
 Think like an attacker:
 - Test authentication bypass attempts
 - Test authorization (can user X access user Y's data?)
@@ -50,19 +58,11 @@ Think like an attacker:
 - Check for exposed secrets in browser console/network tab
 - Check for sensitive data in API responses
 
-### 4. Regression Testing
+### 5. Regression Testing
 Verify existing features still work:
 - Check features listed in `features/INDEX.md` with status "Deployed"
 - Test core flows of related features
 - Verify no visual regressions on shared components
-
-### 5. Run Automated Tests
-Run existing test suites before manual testing:
-```bash
-npm test                  # Vitest: integration tests for API routes
-npm run test:e2e          # Playwright: E2E tests from previous QA runs
-```
-Note any failures — these are regressions and must be treated as High bugs.
 
 ### 6. Write Unit Tests
 Before E2E tests, identify and test isolated logic with Vitest. Place tests **co-located** next to the source file (e.g. `src/hooks/useFeature.test.ts` next to `src/hooks/useFeature.ts`):

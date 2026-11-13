@@ -8,11 +8,10 @@ paths:
 
 # Frontend Development Rules
 
-## shadcn/ui First (MANDATORY)
-- Before creating ANY UI component, check if shadcn/ui has it: `ls src/components/ui/`
-- NEVER create custom implementations of: Button, Input, Select, Checkbox, Switch, Dialog, Modal, Alert, Toast, Table, Tabs, Card, Badge, Dropdown, Popover, Tooltip, Navigation, Sidebar, Breadcrumb
-- If a shadcn component is missing, install it: `npx shadcn@latest add <name> --yes`
-- Custom components are ONLY for business-specific compositions that internally use shadcn primitives
+## Component Source Order (MANDATORY)
+1. **Project design system.** If `docs/design-system.md` exists, it is binding. Use its tokens and build the components it defines, including its own versions of elements like Badge, Tabs, Card or Navigation, following the files and mockups it points to. For interactive behaviour (dialogs, popovers, selects, focus handling) build on the shadcn/Radix primitive and style it with the design tokens.
+2. **shadcn/ui.** For everything the design system does not define, check `ls src/components/ui/` first and install what is missing: `npx shadcn@latest add <name> --yes`. NEVER hand-write an element shadcn provides: Button, Input, Select, Checkbox, Switch, Dialog, Modal, Alert, Toast, Table, Tabs, Card, Badge, Dropdown, Popover, Tooltip, Navigation, Sidebar, Breadcrumb.
+3. **Custom components.** ONLY business-specific compositions of the two sources above.
 
 ## Import Pattern
 ```tsx
@@ -21,7 +20,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 ```
 
 ## Component Standards
-- Use Tailwind CSS exclusively (no inline styles, no CSS modules)
+- Use Tailwind CSS exclusively (no inline styles, no CSS modules); design tokens belong in the Tailwind theme (`globals.css`, `tailwind.config.ts`), not hard-coded in components
 - All components must be responsive (mobile 375px, tablet 768px, desktop 1440px)
 - Implement loading states, error states, and empty states
 - Use semantic HTML and ARIA labels for accessibility

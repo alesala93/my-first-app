@@ -2,9 +2,10 @@
 
 Before marking frontend as complete:
 
-## shadcn/ui
-- [ ] Checked shadcn/ui for EVERY UI component needed
-- [ ] No custom duplicates of shadcn components created
+## Design System & shadcn/ui
+- [ ] `docs/design-system.md` followed where it exists (tokens, components, mockup)
+- [ ] Checked shadcn/ui for EVERY UI component the design system does not define
+- [ ] No hand-written duplicates of shadcn components created
 - [ ] Missing shadcn components installed via `npx shadcn@latest add`
 
 ## Existing Code
@@ -12,7 +13,7 @@ Before marking frontend as complete:
 - [ ] Reused existing components where possible
 
 ## Design
-- [ ] Design preferences clarified with user (if no mockups)
+- [ ] Design preferences clarified with user (only if no design system or mockup exists)
 - [ ] Component architecture from Solution Architect followed
 
 ## Implementation

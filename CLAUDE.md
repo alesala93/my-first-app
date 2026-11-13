@@ -11,6 +11,8 @@
 - **Validation:** Zod + react-hook-form
 - **State:** React useState / Context API
 
+Backend and Deployment are the template defaults. If `/init` or `/architecture` decides otherwise, this section is updated and the changed entries apply.
+
 ## Project Structure
 
 ```
@@ -24,7 +26,9 @@ features/           Feature specifications (PROJ-X-name.md)
   INDEX.md          Feature status overview
 docs/
   PRD.md            Product Requirements Document
+  design-system.md  Binding design system, if the project has one (optional)
   production/       Production guides (Sentry, security, performance)
+reference/          Handed-over mockup or prototype, read-only, not part of the build (optional)
 ```
 
 ## Development Workflow
@@ -32,8 +36,8 @@ docs/
 1. `/init` - Initialize the project: PRD + feature map (run once at the start)
 2. `/write-spec` - Create a full feature spec for one feature
 3. `/architecture` - Design tech architecture (PM-friendly, no code)
-4. `/frontend` - Build UI components (shadcn/ui first!)
-5. `/backend` - Build APIs, database, RLS policies
+4. `/frontend` - Build UI components (design system first, then shadcn/ui)
+5. `/backend` - Build APIs, database, RLS policies (before `/frontend` if the tech design's build order says so)
 6. `/qa` - Test against acceptance criteria + security audit
 7. `/deploy` - Deploy to Vercel + production-ready checks
 
@@ -48,7 +52,7 @@ All features tracked in `features/INDEX.md`. Every skill reads it at start and u
 - **Feature IDs:** PROJ-1, PROJ-2, etc. (sequential)
 - **Commits:** `feat(PROJ-X): description`, `fix(PROJ-X): description`
 - **Single Responsibility:** One feature per spec file
-- **shadcn/ui first:** NEVER create custom versions of installed shadcn components
+- **Design system first, then shadcn/ui:** `docs/design-system.md` is binding if it exists; for everything it does not define, use shadcn/ui and NEVER create custom versions of installed shadcn components
 - **Human-in-the-loop:** All workflows have user approval checkpoints
 - **Tests:** Unit tests co-located next to source files (`useHook.test.ts` next to `useHook.ts`). E2E tests in `tests/`.
 

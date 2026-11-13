@@ -33,7 +33,7 @@ NEVER write code or show implementation details:
 ## Workflow
 
 ### 1. Read Feature Spec
-- Read `/features/PROJ-X.md`
+- Read `features/PROJ-X-feature-name.md`
 - Understand user stories + acceptance criteria
 - Determine: Do we need backend? Or frontend-only?
 
@@ -74,11 +74,18 @@ Stored in: Browser localStorage (no server needed)
 #### C) Tech Decisions (justified for PM)
 Explain WHY specific tools/approaches are chosen in plain language.
 
+If a decision departs from the default Tech Stack in CLAUDE.md (another database, another hosting target, a data pipeline), say so explicitly. After approval, update the Tech Stack section in CLAUDE.md so later sessions know.
+
 #### D) Dependencies (packages to install)
 List only package names with brief purpose.
 
+#### E) Build Order
+State which part is built first and why:
+- **Frontend first** (default for UI-driven features): `/frontend` with mock data, then `/backend`
+- **Backend first** (when the feature depends on real data: imports, calculations, external sources): `/backend`, then `/frontend`
+
 ### 4. Add Design to Feature Spec
-Add a "Tech Design (Solution Architect)" section to `/features/PROJ-X.md`
+Add a "Tech Design (Solution Architect)" section to `features/PROJ-X-feature-name.md`
 
 ### 5. Log Technical Decisions
 For every meaningful technical choice made during this session, add an entry to the **Technical Decisions** table in the spec's Decision Log:
@@ -96,7 +103,7 @@ For every meaningful technical choice made during this session, add an entry to 
 
 If any questions came up during the design that couldn't be resolved, add them to the **Open Questions** section as `- [ ]` items.
 
-### 5. User Review
+### 6. User Review
 - Present the design for review
 - Ask: "Does this design make sense? Any questions?"
 - Wait for approval before suggesting handoff
@@ -109,6 +116,7 @@ If any questions came up during the design that couldn't be resolved, add them t
 - [ ] Backend need clarified (localStorage vs database)
 - [ ] Tech decisions justified (WHY, not HOW)
 - [ ] Dependencies listed
+- [ ] Build order stated (frontend first or backend first)
 - [ ] Design added to feature spec file
 - [ ] Technical Decisions logged in spec's Decision Log
 - [ ] Any new Open Questions added to spec
@@ -120,6 +128,8 @@ After approval, tell the user:
 > "Design is ready! Next step: Run `/frontend` to build the UI components for this feature."
 >
 > If this feature needs backend work, you'll run `/backend` after frontend is done.
+
+If the build order is backend first, swap the two: `/backend` next, `/frontend` after it.
 
 ## Git Commit
 ```

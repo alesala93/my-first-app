@@ -1,6 +1,6 @@
 ---
 name: refine
-description: Always use when the user wants to discuss an exsiting feature or specification. Open an existing feature spec to improve, extend, or fundamentally challenge it. Pass the feature ID as argument (e.g. /refine PROJ-2).
+description: Always use when the user wants to discuss an existing feature or specification. Open an existing feature spec to improve, extend, or fundamentally challenge it. Pass the feature ID as argument (e.g. /refine PROJ-2).
 argument-hint: "PROJ-X"
 user-invocable: true
 ---
@@ -70,7 +70,7 @@ Same as in `/init` and `/write-spec`:
 
 ## After the Interview: Update the Spec
 
-Make the changes to `features/PROJ-X-*.md`. After saving, re-read the file to verify the changes are present.
+Make the changes to `features/PROJ-X-*.md`.
 
 ### Maintain the Decision Log and Open Questions
 
@@ -93,7 +93,7 @@ If the refinement surfaced questions that couldn't be resolved now, add them as 
 ## Checklist Before Completion
 - [ ] Opening question asked and path determined
 - [ ] All interview questions resolved
-- [ ] Spec file updated and verified (re-read after editing)
+- [ ] Spec file updated
 - [ ] Out of Scope updated if scope boundaries changed
 - [ ] Resolved Open Questions marked as `- [x]` with resolution note
 - [ ] New decisions logged in Decision Log with rationale

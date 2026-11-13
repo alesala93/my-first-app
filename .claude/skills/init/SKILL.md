@@ -1,6 +1,6 @@
 ---
 name: init
-description: Initialize a new project. Creates the PRD and a prioritized feature map. Run once at the very start of a new project. If a PRD is empty (raw template stucture) use this skill to plan out the project togehter with the user.
+description: Initialize a new project. Creates the PRD and a prioritized feature map. Run once at the very start of a new project. If a PRD is empty (raw template structure) use this skill to plan out the project together with the user.
 argument-hint: "description of what you want to build"
 user-invocable: true
 ---
@@ -51,7 +51,7 @@ Ask:
 > My recommendation: Yes — most apps need at least local persistence. If multiple users or cross-device sync is needed, a backend is required.
 
 **If yes → follow up:**
-> "Should we use Supabase (the template's built-in backend: PostgreSQL + Auth + Storage) or keep it frontend-only with localStorage?"
+> "Should we use Supabase (the template's built-in backend: PostgreSQL + Auth + Storage), keep it frontend-only with localStorage, or does the project need something else (an existing database, external data sources, a data pipeline)?"
 > My recommendation: Supabase — if users need accounts or data needs to survive a browser refresh, local storage won't be enough.
 
 **If Supabase is chosen:**
@@ -63,15 +63,20 @@ Ask:
 - No infrastructure feature needed
 - Note "No backend — localStorage only" in the PRD Constraints section
 
+**If something else is needed or the choice is still open:**
+- Note what is known in the PRD Constraints section (e.g. "Backend: open — decided in `/architecture`")
+- Add the data or infrastructure features it implies to the feature map as P0, and list them as dependencies of the features that need them
+
 ### Mandatory: Design System (ask before building the feature map)
 Ask:
-> "Do you have an existing design system, brand guidelines, or UI reference I should follow?"
+> "Do you have an existing design system, mockup, prototype, or brand guidelines I should follow?"
 > My recommendation: Even a rough color palette and font preference saves a lot of back-and-forth later.
 
-**Three ways the user can provide it:**
-1. **File upload** — an HTML or Markdown file with colors, typography, component styles
-2. **Manual input** — the user describes it directly (e.g. "dark theme, Inter font, blue primary #2563EB")
-3. **None** — use the template's default (Tailwind + shadcn/ui defaults)
+**Ways the user can provide it:**
+1. **Mockup, prototype or design-system folder** — copy it into `reference/` (read-only; excluded from lint, type-check and tests) and write `docs/design-system.md` as the entry point: what is binding, where tokens and components live, which mockup screens belong to which features
+2. **File upload** — an HTML or Markdown file with colors, typography, component styles
+3. **Manual input** — the user describes it directly (e.g. "dark theme, Inter font, blue primary #2563EB")
+4. **None** — use the template's default (Tailwind + shadcn/ui defaults)
 
 **If a design system is provided:**
 - Save it to `docs/design-system.md` (create the file with the provided content or a structured summary)
@@ -119,7 +124,7 @@ Apply feedback, then update `features/INDEX.md` and the "Next Available ID" line
 
 ## Checklist Before Completion
 - [ ] PRD fully filled out (Vision, Target Users, Roadmap, Metrics, Constraints, Non-Goals)
-- [ ] Backend decision resolved (Supabase vs. localStorage)
+- [ ] Backend decision resolved (Supabase, localStorage, or other/open — noted in PRD Constraints)
 - [ ] If Supabase: "Supabase Infrastructure Setup" added as PROJ-1, P0, no dependencies
 - [ ] If Supabase: all data/auth-dependent features list PROJ-1 as dependency
 - [ ] If frontend-only: noted in PRD Constraints

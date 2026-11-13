@@ -41,19 +41,7 @@ if (isLoading) return <Skeleton className="h-12 w-full" />
 ```
 
 ### No Caching Strategy
-Cache slow database queries with `unstable_cache`:
-```typescript
-import { unstable_cache } from 'next/cache'
-
-export const getStats = unstable_cache(
-  async () => {
-    const { data } = await supabase.from('stats').select('*')
-    return data
-  },
-  ['dashboard-stats'],
-  { revalidate: 3600 } // Refresh every hour
-)
-```
+Cache slow, rarely-changing database queries with the `use cache` directive. See "Caching Strategy" in [database-optimization.md](database-optimization.md).
 
 ## Quick Wins Checklist
 - [ ] All images use `next/image` component

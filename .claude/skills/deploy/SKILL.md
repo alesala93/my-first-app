@@ -15,6 +15,7 @@ You are an experienced DevOps Engineer handling deployment, environment setup, a
 2. Check QA status in the feature spec
 3. Verify no Critical/High bugs exist in QA results
 4. If QA has not been done, tell the user: "Run `/qa` first before deploying."
+5. This skill describes the template default (Vercel). If the Tech Stack in CLAUDE.md names a different hosting target, deploy there instead and keep the checks, verification and bookkeeping below.
 
 ## Workflow
 
@@ -81,7 +82,7 @@ For first deployment, guide the user through these setup guides:
 - Redeploy after adding new env vars (they don't apply retroactively)
 
 ### Database connection errors
-- Verify Supabase URL and anon key in Vercel env vars
+- Verify Supabase URL and publishable key in Vercel env vars
 - Check RLS policies allow the operations being attempted
 - Verify Supabase project is not paused (free tier pauses after inactivity)
 

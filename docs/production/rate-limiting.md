@@ -65,13 +65,14 @@ export async function POST(request: NextRequest) {
 }
 ```
 
-### 6. Use in Middleware (Global)
+### 6. Use in Proxy (Global)
+Next.js 16 renamed `middleware.ts` to `proxy.ts`.
 ```typescript
-// middleware.ts
+// src/proxy.ts
 import { ratelimit } from '@/lib/rate-limit'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Only rate limit API routes
   if (request.nextUrl.pathname.startsWith('/api/')) {
     const ip = request.headers.get('x-forwarded-for') ?? 'anonymous'

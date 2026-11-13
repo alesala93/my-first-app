@@ -12,7 +12,7 @@ This template uses [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
 git clone https://github.com/YOUR_USERNAME/ai-coding-starter-kit.git my-project
 cd my-project
 npm install
-npx playwright install chromium   # one-time: installs browser for E2E tests (~300MB)
+npx playwright install chromium webkit   # one-time: installs the two browser engines for E2E tests
 ```
 
 ### 2. (Optional) Supabase Setup
@@ -71,6 +71,8 @@ The skill interviews you about this single feature in depth — user stories, ed
 
 Each skill suggests the next step when it finishes. Handoffs are always user-initiated.
 
+Run each step in its own chat and pick the model for it with `/model`. Nothing in this template pins a model.
+
 ---
 
 ## Available Skills
@@ -91,7 +93,7 @@ Each skill suggests the next step when it finishes. Handoffs are always user-ini
 
 - **Skills** are defined in `.claude/skills/` and auto-discovered by Claude Code
 - **Rules** in `.claude/rules/` are auto-applied based on file context (no manual loading)
-- **Sub-Agents** run heavy tasks (frontend, backend, QA) in isolated contexts for cost efficiency
+- **Sub-Agents** in `.claude/agents/` are optional role definitions Claude can delegate work to; they use the model of the chat that calls them
 - **CLAUDE.md** provides project context automatically at every session start
 
 ---
@@ -104,7 +106,7 @@ Each skill suggests the next step when it finishes. Handoffs are always user-ini
              /refine PROJ-X -->  Revisit and improve an existing spec
 2. Design    /architecture  -->  Tech design added to feature spec
 3. Build     /frontend      -->  UI components implemented
-             /backend       -->  APIs + database (if needed)
+             /backend       -->  APIs + database (if needed; first if the tech design says so)
 4. Test      /qa            -->  Test results added to feature spec
 5. Ship      /deploy        -->  Deployed to Vercel
 ```
@@ -154,13 +156,13 @@ ai-coding-starter-kit/
 |   |   +-- write-spec/SKILL.md           /write-spec
 |   |   +-- refine/SKILL.md              /refine
 |   |   +-- architecture/SKILL.md        /architecture
-|   |   +-- frontend/SKILL.md            /frontend (runs as sub-agent)
-|   |   +-- backend/SKILL.md             /backend (runs as sub-agent)
-|   |   +-- qa/SKILL.md                  /qa (runs as sub-agent)
+|   |   +-- frontend/SKILL.md            /frontend
+|   |   +-- backend/SKILL.md             /backend
+|   |   +-- qa/SKILL.md                  /qa
 |   |   +-- deploy/SKILL.md              /deploy
 |   |   +-- help/SKILL.md                /help
-|   +-- agents/                      <-- Sub-agent configs
-|       +-- frontend-dev.md              Model, tools, limits
+|   +-- agents/                      <-- Optional sub-agent roles
+|       +-- frontend-dev.md              Role, tools
 |       +-- backend-dev.md
 |       +-- qa-engineer.md
 +-- features/                        <-- Feature specifications
@@ -217,25 +219,15 @@ See `docs/production/` for detailed setup guides.
 ## How It Works Under the Hood
 
 ### Skills (`.claude/skills/`)
-Each skill is a structured workflow that Claude Code discovers automatically. Skills can run inline (in the main conversation) or as forked sub-agents (isolated context window).
+Each skill is a structured workflow that Claude Code discovers automatically. All skills run in the chat where you invoke them, so they can ask you questions and you review the result right there.
 
-| Skill | Execution | Why? |
-|-------|-----------|------|
-| `/init` | Inline | Needs live interview with user |
-| `/write-spec` | Inline | Needs live interview with user |
-| `/refine` | Inline | Needs live interview with user |
-| `/architecture` | Inline | Short output, user reviews in real-time |
-| `/frontend` | Sub-agent (forked) | Heavy file editing, lots of output |
-| `/backend` | Sub-agent (forked) | Heavy file editing, SQL, API code |
-| `/qa` | Sub-agent (forked) | Systematic testing, lots of output |
-| `/deploy` | Inline | Deployment needs user oversight |
-| `/help` | Inline | Quick status check and guidance |
+Run each step in its own chat. A new chat starts with a clean context, because everything it needs is in the feature spec and `features/INDEX.md`, and you choose the model for that step with `/model`. No skill or agent pins a model. A new chat matters most for `/qa`: the tester should not be the session that wrote the code.
 
 ### Rules (`.claude/rules/`)
 Coding standards that are auto-applied based on which files Claude is working with. No manual loading needed.
 
 ### Sub-Agent Configs (`.claude/agents/`)
-Lightweight configurations that define model, tool access, and turn limits for forked skills.
+Optional role definitions (frontend, backend, QA) with a restricted tool set. Claude can hand a self-contained piece of work to one of them. They use the model of the calling chat and cannot ask you questions.
 
 ### CLAUDE.md
 Auto-loaded at every session start. Contains tech stack, conventions, and references to PRD and feature index.
@@ -264,11 +256,11 @@ Not everything is loaded at once. Information is layered by relevance:
 
 ### Context is isolated
 
-Heavy implementation skills (`/frontend`, `/backend`, `/qa`) run as **forked sub-agents** with their own context window. Research noise from one skill doesn't pollute another. Each fork starts clean and loads only what it needs.
+Each workflow step runs in its own chat. Research noise from one step doesn't pollute the next, because the next chat starts clean and loads only what it needs from the files.
 
 ### Context recovery is built in
 
-All forked skills include a **Context Recovery** section: if the context is compacted mid-task, the agent re-reads the feature spec, checks `git diff` for progress, and continues without restarting or duplicating work.
+The implementation skills (`/frontend`, `/backend`, `/qa`) include a **Context Recovery** section: if the context is compacted mid-task, the agent re-reads the feature spec, checks `git diff` for progress, and continues without restarting or duplicating work.
 
 ### Always read, never guess
 

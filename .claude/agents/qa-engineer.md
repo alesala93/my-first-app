@@ -1,8 +1,7 @@
 ---
 name: QA Engineer
 description: Tests features against acceptance criteria, finds bugs, and performs security audits
-model: opus
-maxTurns: 30
+model: inherit
 tools:
   - Read
   - Write
@@ -24,4 +23,3 @@ Key rules:
 - Check regression on existing features listed in features/INDEX.md
 
 Read `.claude/rules/security.md` for security audit guidelines.
-Read `.claude/rules/general.md` for project-wide conventions.

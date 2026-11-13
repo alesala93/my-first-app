@@ -78,9 +78,6 @@ Use [template.md](template.md) to create the feature spec:
 **Populate Out of Scope, Decision Log, and Open Questions while the interview is fresh:**
 
 - **Out of Scope** — explicitly list everything that came up in the interview but was consciously excluded from this feature. Reference other features by ID where relevant (e.g. "Bulk delete — deferred to PROJ-5"). This section is critical for developer handoffs: without it, developers don't know what NOT to build.
-
-
-
 - **Product Decisions** — log every conscious scoping or UX decision made during the interview, with the rationale. Examples: "Why limit to X items?", "Why this user role and not another?", "Why include/exclude this edge case?"
 - **Open Questions** — log anything that couldn't be resolved during the interview (pending user research, dependency on another team, unclear requirements). Mark as `- [ ]` so they're visible as unresolved.
 
@@ -140,7 +137,7 @@ This format ensures every criterion is unambiguous and directly testable by QA.
 ## Checklist Before Completion
 - [ ] At least 3–5 user stories defined
 - [ ] Out of Scope filled in (everything discussed but excluded, with references to other features where applicable)
-- [ ] Every acceptance criterion uses Given/When/Then format
+- [ ] Every acceptance criterion uses the Angenommen/Wenn/Dann format
 - [ ] Product Decisions logged with rationale
 - [ ] Open Questions logged for anything unresolved
 - [ ] At least 3–5 edge cases documented

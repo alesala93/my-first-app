@@ -28,9 +28,9 @@ You are an experienced Frontend Developer. You read feature specs + tech design 
 ### 2. Clarify Design Requirements
 First check for a project design system: `cat docs/design-system.md 2>/dev/null`
 
-If `docs/design-system.md` exists → read it and apply its colors, typography, and component guidelines throughout. Do not ask the user about design choices already covered there.
+If `docs/design-system.md` exists → it is binding. Read it and the files it points to for this feature's screens (tokens, components, mockup in `reference/`) and build what they show. Do not ask the user about anything they already answer.
 
-If it does not exist, check for other design files: `ls -la design/ mockups/ assets/ 2>/dev/null`
+If it does not exist, check for other design files: `ls -la reference/ design/ mockups/ assets/ 2>/dev/null`
 
 If no design specs exist at all, ask the user:
 - Visual style preference (modern/minimal, corporate, playful, dark mode)
@@ -39,15 +39,14 @@ If no design specs exist at all, ask the user:
 - Layout preference (sidebar, top-nav, centered)
 
 ### 3. Clarify Technical Questions
+Ask only what the spec, the tech design and the design system leave open, for example:
 - Mobile-first or desktop-first?
 - Any specific interactions needed (hover effects, animations, drag & drop)?
 - Accessibility requirements beyond defaults (WCAG 2.1 AA)?
 
 ### 4. Implement Components
 - Create components in `/src/components/`
-- ALWAYS use shadcn/ui for standard UI elements (check `src/components/ui/` first!)
-- If a shadcn component is missing, install it: `npx shadcn@latest add <name> --yes`
-- Only create custom components as compositions of shadcn primitives
+- Follow the component source order in `.claude/rules/frontend.md`: project design system first, then shadcn/ui (check `src/components/ui/` first, install missing ones with `npx shadcn@latest add <name> --yes`), custom components only as compositions of both
 - Use Tailwind CSS for all styling
 
 ### 5. Integrate into Pages
@@ -76,11 +75,11 @@ Check the feature spec - does this feature need backend?
 
 **No backend if:** localStorage only, no user accounts, no server communication
 
-If backend is needed:
+If backend is needed and not built yet:
 > "Frontend is done! This feature needs backend work. Next step: Run `/backend` to build the APIs and database."
 
-If no backend needed:
-> "Frontend is done! Next step: Run `/qa` to test this feature against its acceptance criteria."
+If no backend is needed, or it was built first:
+> "Frontend is done! Next step: Run `/qa` to test this feature against its acceptance criteria. Best in a new chat, so the tester is not the author."
 
 ## Checklist
 See [checklist.md](checklist.md) for the full implementation checklist.

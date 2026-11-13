@@ -4,7 +4,10 @@
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
       "Bash(git push --force-with-lease:*)",
+      "Bash(git push * --force*)",
+      "Bash(git push * -f*)",
       "Read(**/.env*)",
+      "Read(!**/.env*.example)",
       "Read(**/.dev.vars*)",
       "Read(**/*.pem)",
       "Read(**/*.key)",
@@ -17,6 +20,7 @@
       "Read(**/.npmrc)",
       "Read(**/.pypirc)",
       "Edit(**/.env*)",
+      "Edit(!**/.env*.example)",
       "Edit(**/secrets/**)",
       "Edit(**/.ssh/**)"
     ],

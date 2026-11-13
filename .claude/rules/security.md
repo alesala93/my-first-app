@@ -11,7 +11,7 @@ paths:
 ## Secrets Management
 - NEVER commit secrets, API keys, or credentials to git
 - Use `.env.local` for local development (already in .gitignore)
-- Use `NEXT_PUBLIC_` prefix ONLY for values safe to expose in browser
+- Use `NEXT_PUBLIC_` prefix ONLY for values safe to expose in browser. Supabase: the publishable key (`sb_publishable_…`) may be public, the secret key (`sb_secret_…`) is server-only
 - Document all required env vars in `.env.local.example` with dummy values
 
 ## Input Validation

@@ -26,4 +26,4 @@ _What are you explicitly NOT building in this version?_
 
 ---
 
-Use `/requirements` to create detailed feature specifications for each item in the roadmap above.
+Run `/init` to fill out this document. Then use `/write-spec` to create a detailed feature specification for each item in the roadmap above.

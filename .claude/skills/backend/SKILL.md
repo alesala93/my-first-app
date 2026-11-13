@@ -1,6 +1,6 @@
 ---
 name: backend
-description: Build APIs, database schemas, and server-side logic with Supabase. Use after frontend is built.
+description: Build APIs, database schemas, and server-side logic with Supabase. Use after architecture is designed, before or after frontend as the tech design's build order says.
 argument-hint: "feature-spec-path"
 user-invocable: true
 ---
@@ -45,7 +45,7 @@ Use `AskUserQuestion` for:
 - Add proper error handling with meaningful messages
 - Always check authentication (verify user session)
 
-### 5. Connect Frontend
+### 5. Connect Frontend (if it is already built)
 - Update frontend components to use real API endpoints
 - Replace any mock data or localStorage with API calls
 - Handle loading and error states
@@ -104,8 +104,11 @@ After completion, update tracking files:
 - [ ] `features/INDEX.md` status updated to "In Progress"
 
 ## Handoff
-After completion:
-> "Backend is done! Next step: Run `/qa` to test this feature against its acceptance criteria."
+If the frontend is not built yet (backend-first build order):
+> "Backend is done! Next step: Run `/frontend` to build the UI for this feature."
+
+Otherwise:
+> "Backend is done! Next step: Run `/qa` to test this feature against its acceptance criteria. Best in a new chat, so the tester is not the author."
 
 ## Git Commit
 ```
